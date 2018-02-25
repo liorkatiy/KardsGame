@@ -1,0 +1,33 @@
+{
+  "name": "kards-api",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js",
+    "deploy": "git add . && git commit -m init && git push heroku master",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "bcryptjs": "*",
+    "body-parser": "*",
+    "cors": "*",
+    "express": "",
+    "helmet": "*",
+    "jsonwebtoken": "*",
+    "mongoose": "*",
+    "passport": "*",
+    "passport-google-oauth": "*",
+    "validator": "*"
+  },
+  "devDependencies": {
+    "eslint": "^4.18.0",
+    "eslint-config-google": "^0.9.1",
+    "eslint-plugin-node": "^6.0.0"
+  },
+  "engines": {
+    "node": "8.9.3"
+  }
+}

@@ -1,0 +1,36 @@
+{
+    "plugins": [
+        "node"
+    ],
+    "extends": [
+        "eslint:recommended",
+        "plugin:node/recommended"
+    ],
+    "env": {
+        "browser": true,
+        "commonjs": true,
+        "es6": true,
+        "node": true
+    },
+    "parserOptions": {
+        "ecmaVersion": 8,
+        "sourceType": "module"
+    },
+    "rules": {
+        "node/exports-style": [
+            "error",
+            "module.exports"
+        ],
+        "no-var": "warn",
+        "semi": "warn",
+        "node/no-missing-require": "error",
+        "no-console": "warn",
+        "no-const-assign": "warn",
+        "no-this-before-super": "warn",
+        "no-undef": "warn",
+        "no-unreachable": "warn",
+        "no-unused-vars": "warn",
+        "constructor-super": "warn",
+        "valid-typeof": "warn"
+    }
+}

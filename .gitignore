@@ -1,0 +1,5 @@
+node_modules
+client/build
+server/public
+server/config.json
+server/.git

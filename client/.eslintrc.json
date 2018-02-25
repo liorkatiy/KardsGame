@@ -1,0 +1,39 @@
+{
+  "env": {
+    "browser": true,
+    "commonjs": true,
+    "es6": true,
+    "node": true
+  },
+  "plugins": [
+    "react",
+    "require-path-exists",
+    "jsx-a11y"
+  ],
+  "parserOptions": {
+    "ecmaVersion": 8,
+    "ecmaFeatures": {
+      "jsx": true
+    },
+    "sourceType": "module"
+  },
+  "extends": [
+    "plugin:require-path-exists/recommended",
+    "plugin:jsx-a11y/recommended"
+  ],
+  "rules": {
+    "jsx-a11y/no-change": "off",
+    "semi": "warn",
+    "react/jsx-uses-react": "error",
+    "react/jsx-uses-vars": "error",
+    "no-const-assign": "warn",
+    "no-this-before-super": "warn",
+    "no-undef": "warn",
+    "no-unreachable": "warn",
+    "no-unused-vars": "warn",
+    "no-var": "warn",
+    "constructor-super": "warn",
+    "valid-typeof": "warn",
+    "strict": "error"
+  }
+}
