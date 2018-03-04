@@ -6,9 +6,12 @@ const validation = require("../validationSchema");
 
 const deckName = getData("deckName", validation.deckName);
 const id = getData("id", validation.isMongo);
-const kardq = getData("kard.q", validation.isString);
 const karda = getData("kard.a", validation.isString);
-const kardh = getData("kard.h", validation.isString);
+const kardq = getData("kard.q", validation.isString);
+const kardq1 = getData("kard.q1", validation.isString);
+const kardq2 = getData("kard.q2", validation.isString);
+const kardq3 = getData("kard.q3", validation.isString);
+const kardq4 = getData("kard.q4", validation.isString);
 const kardid = getData("kard._id", validation.isMongo);
 
 router.get("/",
@@ -25,20 +28,29 @@ router.post("/",
   deckName(),
   karda(),
   kardq(),
-  kardh(),
+  kardq1(),
+  kardq2(),
+  kardq3(),
+  kardq4(),
   async (req, res) => {
     let n = req.body.deckName;
     let q = req.body.kard.q;
+    let q1 = req.body.kard.q1;
+    let q2 = req.body.kard.q2;
+    let q3 = req.body.kard.q3;
+    let q4 = req.body.kard.q4;
     let a = req.body.kard.a;
-    let h = req.body.kard.h;
-    let result = await kard.createKard(n, q, a, h);
+    let result = await kard.createKard(n, q, q1, q2, q3, q4, a);
     res.sendData(result);
   });
 router.put("/",
   deckName(),
-  karda(),
-  kardh(),
   kardq(),
+  karda(),
+  kardq1(),
+  kardq2(),
+  kardq3(),
+  kardq4(),
   kardid(),
   async (req, res) => {
     let n = req.body.deckName;

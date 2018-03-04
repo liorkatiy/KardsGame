@@ -2,23 +2,23 @@ import initInput from "./inputData";
 
 const map = new WeakMap();
 
-export const setProps = (proto, propName) => {
+export const setProps = (proto, propName, schemaName) => {
   Object.defineProperty(proto, propName, {
     enumerable: true,
     get: function () {
-      return map.get(this)[propName].value;
+      return map.get(this._p)[schemaName].value;
     },
     set: function (val) {
-      map.get(this)[propName].value = val;
+      map.get(this._p)[schemaName].value = val;
     }
   });
 };
 
 export const setInput = (schema, inputs) => {
   const inputSettings = initInput(schema);
-  Object.defineProperty(inputs, schema.name, {
+  Object.defineProperty(inputs, schema.schemaName, {
     value: function (validationFunction) {
-      const p = map.get(this)[schema.name];
+      const p = map.get(this._p)[schema.schemaName];
       if (p.input < schema.input) {
         return (input => {
           if (input)
@@ -78,7 +78,7 @@ export const setValidators = (schema) => {
       if (schema.type === "email") {
         const msg = name + " Is Not Valid Email";
         schema.validators["isEmail"] = val =>
-          /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+          /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/
             .test(val) ? undefined : msg;
       }
     }

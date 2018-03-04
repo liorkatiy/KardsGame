@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
+import ID from "./Id";
 
-class Select extends Component {
+class Input extends Component {
   constructor() {
     super();
     this.onError = this.onError.bind(this);
     this.state = { err: "__dirty" };
+    this.idx = ID();
   }
 
   componentWillReceiveProps(props) {
@@ -14,12 +16,16 @@ class Select extends Component {
   }
 
   onError(err) {
+    if (this.props.onChange) {
+      this.props.onChange();
+    }
     if (this.state.err !== err) {
       this.setState({ err });
     }
   }
 
   render() {
+
     let cls = "form-control";
 
     if (this.state.err == null) {
@@ -28,17 +34,16 @@ class Select extends Component {
     else if (this.state.err !== "__dirty") {
       cls += " is-invalid";
     }
+    const id = "input" + this.idx;
     return (
-      <div className="form-group mb-4" >
-        <label className="control-label  col-sm-12" htmlFor="select" >
+      <div className="form-group mb-4">
+        <label
+          className="control-label  col-sm-12"
+          htmlFor="input" >
           {this.props.name}:
-
-        <select id="select"
-            className={cls}
-            ref={this.props.set(this.props.type, this.onError)} >
-            {this.props.options.map((o, i) =>
-              <option key={i} value={o.value} >{o.name}</option>)}
-          </select>
+        <input className={cls}
+            id={id}
+            ref={this.props.set(this.props.type, this.onError)} />
           <div className="invalid-tooltip">
             {this.state.err}
           </div>
@@ -48,4 +53,4 @@ class Select extends Component {
   }
 }
 
-export default Select;
+export default Input;

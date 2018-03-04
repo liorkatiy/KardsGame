@@ -2,6 +2,7 @@ import React from 'react';
 import Deck from "./Deck/Deck.jsx";
 import AddDeck from "./Deck/DeckAdd.jsx";
 import { deck } from '../../util/dbFetch';
+import UserSearch from "./User/UserSearch.jsx";
 
 class Admin extends React.Component {
   constructor(props) {
@@ -9,10 +10,11 @@ class Admin extends React.Component {
     this.state = { decks: props.decks };
     this.addDeck = this.addDeck.bind(this);
     this.removeDeck = this.removeDeck.bind(this);
+    this.findDeck = this.findDeck.bind(this);
   }
 
-  async addDeck(name) {
-    const newDeck = await deck.addDeck(name);
+  async addDeck(name, isDefault) {
+    const newDeck = await deck.addDeck(name, isDefault);
     const decko = this.state.decks;
     decko.push(newDeck);
     this.setState({ decks: decko });
@@ -26,9 +28,18 @@ class Admin extends React.Component {
     }
   }
 
-  async renameDeck(name, newName) {
-    const f = await deck.renameDeck(name, newName);
+  async renameDeck(name, newName, isDefault) {
+    const f = await deck.renameDeck(name, newName, isDefault);
     return f;
+  }
+
+  async findDeck(name) {
+    const decks = await deck.getDeck(name);
+    if (decks) {
+      this.setState({ decks });
+    } else {
+      this.setState({ decks: [] });
+    }
   }
 
   render() {
@@ -36,6 +47,7 @@ class Admin extends React.Component {
       return (
         <div>
           <AddDeck add={this.addDeck} />
+          <UserSearch search={this.findDeck} />
           <hr />
           {
             this.state.decks.map((deck) =>

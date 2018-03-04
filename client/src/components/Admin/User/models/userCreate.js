@@ -8,8 +8,9 @@ export default model({
     value: "",
     default: "",
     validators: {
-      required: true,//(v) => v ? undefined : "name is required",
-      min: 2, max: 11//v => v.length < 6 ? undefined : "should be max 6 chars"
+      required: true,
+      min: 2,
+      max: 11
 
     },
     placeholder: "name"
@@ -17,14 +18,14 @@ export default model({
   password: {
     onInput: true,
     alias: "Password",
-    type: "text",
+    type: "password",
     value: "",
     default: "",
     placeholder: "password",
     validators: {
-      required: true,// (v) => v ? undefined : "password is required",
-      max: 15,//v => v.length < 6 ? undefined : "should be max 6 chars",
-      min: 5//v => v.length < 4 ? "should be at least 4 characters" : undefined
+      required: true,
+      max: 15,
+      min: 5
     }
   }
 });

@@ -57,7 +57,14 @@ const contains = function (item, i, p) {
   return found;
 };
 
+
+
 class PQ {
+  /**
+ * 
+ * @param {(item1 , item2) => number} compareable 
+ * @param {[]} items
+ */
   constructor(compareable, items) {
     const privates = { arr: [], size: 0, compareable };
     m.set(this, privates);
@@ -103,84 +110,5 @@ class PQ {
     p.size = 0;
   }
 }
-
-/**
- * 
- * @param {(item1 , item2) => number} compareable 
- */
-/*function priotiryQueue(compareable) {
-  let size = 0;
-  const arr = [];
-
-  const swap = function (i1, i2) {
-    const tmp = arr[i1];
-    arr[i1] = arr[i2];
-    arr[i2] = tmp;
-  };
-
-  const sortUp = function () {
-    let i = size;
-    while (i !== 0) {
-      let parent = Math.floor((i - 1) / 2);
-      if (compareable(arr[i], arr[parent]) === 1)
-        swap(i, parent);
-      else break;
-      i = parent;
-    }
-  };
-
-  const sortDown = function () {
-    let left = 1,
-      child = 0,
-      i = 0;
-    while (left < size) {
-      if (left + 1 < size) {
-        child = compareable(arr[left], arr[left + 1]) === 1 ?
-          left : left + 1;
-      } else
-        child = left;
-      if (compareable(arr[child], arr[i]) === 1)
-        swap(child, i);
-      else
-        break;
-      i = child;
-      left = 2 * child + 1;
-    }
-  };
-
-  const contains = function (item, i) {
-    let found = false;
-    if (compareable(arr[i], item) === 0)
-      found = true;
-    else if (compareable(arr[i], item) === 1) {
-      if (i * 2 + 1 < size)
-        found = this.contains(item, i * 2 + 1);
-      if (i * 2 + 2 < size && !found)
-        found = this.contains(item, i * 2 + 2);
-    }
-    return found;
-  };
-
-  this.count = () => size;
-
-  this.enqueue = function (item) {
-    if (item != null) {
-      arr[size] = item;
-      sortUp();
-      size++;
-    }
-  };
-
-  this.dequeue = function () {
-    const item = arr[0];
-    arr[0] = arr[--size];
-    sortDown();
-    return item;
-  };
-
-  this.contains = function (item) {
-    return contains(item, 0);
-  };
-}*/
 
 module.exports = PQ;

@@ -2,16 +2,18 @@ import React, { Component } from 'react';
 import { user } from '../../../util/dbFetch';
 import Progress from './progress.jsx';
 import UserDeckAdd from "./UserDeckAdd.jsx";
-import userModel from "./models/user";
-import Input from "../../Input.jsx";
+import { localUser, googleUser } from "./models/user";
+import Input from "../../Inputs/Input.jsx";
 import Collapse from "../../Collapse.jsx";
-import Select from "../../Select.jsx";
+import Select from "../../Inputs/Select.jsx";
 import { MdDelete, MdEdit } from "react-icons/lib/md";
 
 class User extends Component {
   constructor(props) {
     super(props);
-    this.user = userModel(props.user);
+    this.isLocal = props.user.userData.localUserID ? true : false;
+    this.isGoogle = props.user.userData.googleID ? true : false;
+    this.user = this.isGoogle ? googleUser(props.user) : localUser(props.user);
     this.addDeck = this.addDeck.bind(this);
     this.removeDeck = this.removeDeck.bind(this);
     this.edit = this.edit.bind(this);
@@ -24,7 +26,7 @@ class User extends Component {
       const g = await user.addProg(this.user.name, deck);
       if (g) {
         const progress = this.state.progress;
-        progress.push({ deck });
+        progress.push({ name: deck });
         this.setState({ progress });
       }
       else {
@@ -32,14 +34,14 @@ class User extends Component {
       }
     }
     catch (e) {
-      console.log(e)
+      console.log(e);
     }
   }
 
   async removeDeck(deckName) {
     let removed = await user.removeProg(this.user.name, deckName);
     if (removed) {
-      const progress = this.state.progress.filter(p => p.deck !== deckName);
+      const progress = this.state.progress.filter(p => p.name !== deckName);
       this.setState({ progress });
     }
     else {
@@ -62,9 +64,13 @@ class User extends Component {
   }
   async remove() {
     const user = this.user;
-    let v = await this.props.remove(user._id);
+    const isLocal = this.user.userData.localUserID ? true : false;
+    let v = await this.props.remove(user._id, isLocal);
     if (v) {
-
+      alert("removed " + user.name);
+    }
+    else {
+      alert("error couldnt delete " + user.name);
     }
   }
 
@@ -76,7 +82,7 @@ class User extends Component {
         </div>
         <div>
           {this.state.progress.map(p =>
-            <Progress key={p.deck} prog={p} remove={this.removeDeck} />
+            <Progress key={p.name} prog={p} remove={this.removeDeck} />
           )}
         </div>
       </div> : null;
@@ -91,11 +97,12 @@ class User extends Component {
     ];
     return (
       <div className="mt-3">
-
         <div className="input-group col-sm-8">
           <button
             className="form-control"
-            onClick={() => this.setState({ open: !this.state.open })} >{this.user.name}</button>
+            onClick={() => this.setState({ open: !this.state.open })} >
+            {this.user.name}
+          </button>
           <button
             className="form-control btn btn-outline-primary col-sm-2"
             onClick={this.remove}>
@@ -111,12 +118,17 @@ class User extends Component {
         <Collapse open={this.state.open}>
           <form className="card col-sm-8" onSubmit={(e) => e.preventDefault()} >
             <Input name="User Name" type="name" set={i} clear={c} />
-            <Input name="Password" type="password" set={i} clear={c} />
-            <Select name="Premission"
-              type="premission"
+            {this.isLocal ? <Input
+              name="Password"
+              type="userData.localUserID.password"
+              set={i}
+              clear={c} /> : this.isGoogle ? "google" : "facebook"}
+            {this.isLocal ? <Select
+              name="Premission"
+              type="userData.localUserID.premission"
               set={i}
               clear={c}
-              options={options} />
+              options={options} /> : null}
 
             <UserDeckAdd add={this.addDeck} decks={this.props.decks} prog={this.state.progress} />
             {this.haveProgress()}

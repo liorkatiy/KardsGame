@@ -37,8 +37,9 @@ class App extends React.Component {
 
   async reload() {
     const _decks = await game.getGameDeck();
-    decks.set(_decks.map(d => d.deck));
+    decks.set(_decks);
     this.forceUpdate();
+
   }
 
   collapseDropDown() {
@@ -56,11 +57,11 @@ class App extends React.Component {
     const d = decks.get();
     return d.length ?
       d.map(d =>
-        <Link key={d}
-          onClick={this.linkClick(d)}
+        <Link key={d.name}
+          onClick={this.linkClick(d.name)}
           className="dropdown-item"
           to="/">
-          {d}
+          {d.name}
         </Link>)
       :
       <span className="dropdown-item">
@@ -103,26 +104,24 @@ class App extends React.Component {
       </Switch>;
     } else {
       return <Switch>
-        <Route path="/register" component={router.register} />
-        <Route path="/" component={router.login(this.reload)} />
+        <Route exact path="/register" component={router.register} />
+        <Route exact path="/" component={router.login(this.reload)} />
       </Switch>;
     }
   }
 
   render() {
     const _token = token.getToken();
-    return (
-      <div >
-        <BrowserRouter>
-          <div>
-            {this.setLink(_token)}
-            <div className="container" >
-              {this.setSwitch(_token)}
-            </div>
+    return <div >
+      <BrowserRouter>
+        <div>
+          {this.setLink(_token)}
+          <div className="container" >
+            {this.setSwitch(_token)}
           </div>
-        </BrowserRouter>
-      </div>
-    );
+        </div>
+      </BrowserRouter>
+    </div>;
   }
 }
 

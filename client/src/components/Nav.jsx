@@ -5,7 +5,7 @@ import collapseAnimation from "../util/collapseAnimation";
 class Nav extends React.Component {
 
   componentDidMount() {
-    this.collapse = collapseAnimation(this.refs.collapse, false, 4, 120);
+    this.collapse = collapseAnimation(this.refs.collapse, false, 1, 60);
 
   }
   collapse() {

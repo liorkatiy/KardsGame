@@ -8,7 +8,7 @@ class Progress extends Component {
   }
 
   remove() {
-    this.props.remove(this.props.prog.deck);
+    this.props.remove(this.props.prog.name);
   }
 
   render() {
@@ -17,7 +17,7 @@ class Progress extends Component {
         className=" btn btn-outline-dark input-group-addon"
         onClick={this.remove} ><MdDelete />
       </button>
-      <span className="input-group-text bg-dark text-white" >{this.props.prog.deck}</span>
+      <span className="input-group-text bg-dark text-white" >{this.props.prog.name}</span>
     </div>;
   }
 }

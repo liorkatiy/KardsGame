@@ -76,7 +76,6 @@ function setValidation(validation) {
 
 function validationReturn(result) {
   return (s) => {
-    s = s.toString();
     for (let i = 0; i < result.length; i++) {
       if (!result[i](s)) {
         return false;

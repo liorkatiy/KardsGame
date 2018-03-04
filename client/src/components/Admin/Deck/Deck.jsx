@@ -17,7 +17,7 @@ class Deck extends Component {
   }
 
   async addKard(_kard) {
-    const g = await kard.addKard(this.currentName, _kard.getModel());
+    const g = await kard.addKard(this.currentName, _kard);
     const kards = this.state.kards;
     kards.push(g);
     this.setState({ kards: kards });

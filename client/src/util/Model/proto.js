@@ -26,7 +26,14 @@ const clear = (obj) => {
 const getModel = (obj) => {
   const result = {};
   for (const key in obj) {
-    result[key] = obj[key];
+    if (key === "_p") {
+      continue;
+    }
+    if (typeof obj[key] === "object") {
+      result[key] = getModel(obj[key]);
+    } else {
+      result[key] = obj[key];
+    }
   }
   return result;
 };
@@ -42,14 +49,6 @@ export default (schema) => {
     },
     enumerable: false
   });
-
-  Object.defineProperty(proto, "count", {
-    value: function (property) {
-      return schema[property].input;
-    },
-    enumerable: false
-  });
-
 
   Object.defineProperty(proto, "isValid", {
     value: function () {

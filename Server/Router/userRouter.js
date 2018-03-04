@@ -5,17 +5,17 @@ const router = express.Router();
 const getData = require("../validation");
 const validation = require("../validationSchema");
 
-const _userPermission = getData("user.premission", validation.isNumeric);
+const _userData = getData("user.userData", validation.userData);
 const _userName = getData("user.name", validation.userName);
-const _userPassword = getData("user.password", validation.password);
 const _userID = getData("user._id", validation.isMongo);
 const userName = getData("userName", validation.userName);
 const deckName = getData("deckName", validation.userName);
 const password = getData("password", validation.password);
 const id = getData("id", validation.isMongo);
+const isString = getData("name", validation.isString);
 
 router.get("/",
-  userName(true),
+  isString(true),
   async (req, res) => {
     let n = req.query.userName;
     let result = await user.getUser(n);
@@ -55,8 +55,7 @@ router.delete("/remove",
 router.put("/",
   _userID(),
   _userName(),
-  _userPermission(),
-  _userPassword(true),
+  _userData(),
   async (req, res) => {
     let u = req.body.user;
     let result = await user.editUser(u);
@@ -67,7 +66,8 @@ router.delete("/",
   id(),
   async (req, res) => {
     let n = req.body.id;
-    let result = await user.removeUser(n);
+    const isLocal = req.body.isLocal ? true : false;
+    let result = await user.removeUser(n, isLocal);
     res.sendData(result);
   });
 

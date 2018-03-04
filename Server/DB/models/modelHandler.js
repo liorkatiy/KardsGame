@@ -74,6 +74,16 @@ module.exports = function modelHandler(model, name) {
       }
     },
 
+    populate: async function (_model, options) {
+      try {
+        let result = await model.populate(_model, options);
+        return result;
+      } catch (e) {
+        log(e.message, name + ' create');
+        return false;
+      }
+    },
+
     remove: async function (query) {
       try {
         let result = await model.remove(query);

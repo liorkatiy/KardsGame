@@ -27,6 +27,10 @@ let method = {
  * @param {*} body 
  */
 async function fetcher(url, method, body) {
+  const headers = {
+    'Content-Type': 'application/json',
+    'authorization': token.getTokenAsString(),
+  };
   if (method === 'GET') {
     if (body) {
       url += "?";
@@ -38,21 +42,23 @@ async function fetcher(url, method, body) {
       url = url.substring(0, url.length - 1);
     }
     return await fetch(url, {
-      headers: {
-        'authorization': token.getTokenAsString()
-      }
-    }).then(
-      (res) => res.json());
+      credentials: 'include',
+      headers
+    }).then(res => {
+      return res.json();
+    });
   }
   let init = {
     method: method,
+    credentials: 'include',
     body: JSON.stringify(body),
-    headers: {
-      'Content-Type': 'application/json',
-      'authorization': token.getTokenAsString()
-    }
+    headers
   };
-  return await fetch(url, init).then((res) => res.json());
+  return await fetch(url, init)
+    .then(
+      (res) => {
+        return res.json();
+      });
 }
 
 function getData(data) {
@@ -63,8 +69,7 @@ function getData(data) {
       throw data.error;
     }
   }
-  if (data.token)
-    token.setToken(data.token);
+  token.getTokenCookie();
   return data.item;
 }
 
@@ -74,10 +79,10 @@ function getData(data) {
  * @returns {[]}
  */
 async function getDeck(name, onlyName = "") {
-  let r = await fetcher(deckUrl, method.GET, {
+  let r = await fetcher(deckUrl, method.GET, name ? {
     name,
     onlyName
-  });
+  } : { onlyName });
   return getData(r);
 }
 
@@ -87,10 +92,11 @@ async function getDeck(name, onlyName = "") {
  * @param {string} newName 
  * @return {boolean}
  */
-async function renameDeck(name, newName) {
+async function renameDeck(name, newName, isDefault) {
   let r = await fetcher(deckUrl, method.PUT, {
     name,
-    newName
+    newName,
+    isDefault
   });
   return getData(r);
 }
@@ -99,9 +105,10 @@ async function renameDeck(name, newName) {
  * 
  * @param {string} name 
  */
-async function addDeck(name) {
+async function addDeck(name, isDefault) {
   let r = await fetcher(deckUrl, method.POST, {
-    name
+    name,
+    isDefault
   });
   return getData(r);
 }
@@ -155,7 +162,7 @@ async function addUser(userName, password) {
 }
 
 async function editUser(user) {
-  if (!user.password.length) {
+  if (user.userData.localUserID && !user.userData.localUserID.password.length) {
     delete user.password;
   }
   let r = await fetcher(userUrl, method.PUT, {
@@ -164,17 +171,17 @@ async function editUser(user) {
   return getData(r);
 }
 
-async function removeUser(id) {
+async function removeUser(id, isLocal) {
   let r = await fetcher(userUrl, method.DELETE, {
-    id
+    id, isLocal
   });
   return getData(r);
 }
 
 async function getUser(userName) {
-  let r = await fetcher(userUrl, method.GET, {
+  let r = await fetcher(userUrl, method.GET, userName ? {
     userName
-  });
+  } : {});
   return getData(r);
 }
 
@@ -244,6 +251,11 @@ async function getGameAnswer(deckName, idx, kardID, answer) {
   return getData(r);
 }
 
+async function test() {
+  let r = await fetcher(accountUrl + "/google", method.GET);
+  return getData(r);
+}
+
 export const user = {
   getUser,
   addUser,
@@ -265,7 +277,7 @@ export const kard = {
 };
 export const account = {
   login,
-  register
+  register, test
 };
 export const game = {
   getGameAnswer,

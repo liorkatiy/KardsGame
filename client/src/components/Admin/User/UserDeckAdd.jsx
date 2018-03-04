@@ -11,7 +11,7 @@ class UserDeckAdd extends Component {
 
   componentWillReceiveProps(props) {
     if (props.decks.length) {
-      const prog = props.prog.map(p => p.deck);
+      const prog = props.prog.map(p => p.name);
       this.avDecks = this.props.decks.filter(d =>
         prog.indexOf(d.name) === -1);
       this.newDeck = this.avDecks.length ? this.avDecks[0].name : "";
@@ -27,7 +27,7 @@ class UserDeckAdd extends Component {
   }
 
   deckSearch(e) {
-    this.setState({ filter: e.target.value })
+    this.setState({ filter: e.target.value });
   }
 
   render() {

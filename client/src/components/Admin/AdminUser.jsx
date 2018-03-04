@@ -9,7 +9,6 @@ class AdminUser extends React.Component {
   constructor(props) {
     super(props);
     this.state = { users: props.users, decklist: props.decklist };
-    // this.ready = () => this.state.users && this.state.decklist;
     this.addUser = this.addUser.bind(this);
     this.removeUser = this.removeUser.bind(this);
     this.editUser = this.editUser.bind(this);
@@ -32,8 +31,8 @@ class AdminUser extends React.Component {
     this.setState({ users });
   }
 
-  async removeUser(id) {
-    let removed = await user.removeUser(id);
+  async removeUser(id, isLocal) {
+    let removed = await user.removeUser(id, isLocal);
     if (removed) {
       const users = this.state.users.filter(u => u._id !== id);
       this.setState({ users });

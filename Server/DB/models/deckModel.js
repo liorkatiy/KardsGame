@@ -7,8 +7,17 @@ const deckModel = mongoose.model("deck", {
     unique: true,
     required: true
   },
+  isDefault: {
+    type: Boolean,
+    default: true,
+    required: true
+  },
   kards: {
     type: [{
+      q: {
+        required: true,
+        type: String
+      },
       q1: {
         required: true,
         type: String

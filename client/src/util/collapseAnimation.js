@@ -35,15 +35,15 @@ const animate = function (elem, open, duration = 2, fps = 60) {
     }
 
     step = -step;
-
+    const style = elem.style;
     const animation = () => {
       p += step;
-      elem.style.height = height * p + "px";
-      elem.style.borderBottomWidth = bbottom * p + "px";
-      elem.style.borderTopWidth = btop * p + "px";
-      elem.style.paddingTop = ptop * p + "px";
-      elem.style.paddingBottom = pbottom * p + "px";
-      elem.style.opacity = p;
+      style.height = height * p + "px";
+      style.borderBottomWidth = bbottom * p + "px";
+      style.borderTopWidth = btop * p + "px";
+      style.paddingTop = ptop * p + "px";
+      style.paddingBottom = pbottom * p + "px";
+      style.opacity = p;
 
       if (1 < p || p < 0) {
         clearInterval(timeOutFunc);
@@ -67,11 +67,11 @@ const animate = function (elem, open, duration = 2, fps = 60) {
  */
 const getElemData = (elem) => {
   const data = window.getComputedStyle(elem, null);
-  const pbottom = parseInt(data.getPropertyValue('padding-bottom'));
-  const ptop = parseInt(data.getPropertyValue('padding-top'));
-  const bbottom = parseInt(data.getPropertyValue('border-bottom-width'));
-  const btop = parseInt(data.getPropertyValue('border-top-width'));
+  const pbottom = parseInt(data.getPropertyValue('padding-bottom'), 0);
+  const ptop = parseInt(data.getPropertyValue('padding-top'), 0);
+  const bbottom = parseInt(data.getPropertyValue('border-bottom-width'), 0);
+  const btop = parseInt(data.getPropertyValue('border-top-width'), 0);
   return { pbottom, ptop, bbottom, btop };
-}
+};
 
 export default animate;

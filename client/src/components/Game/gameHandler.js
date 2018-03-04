@@ -29,7 +29,8 @@ export async function getNextKard(answer) {
   const a = await game.getGameAnswer(deck.name, deck.index, kardata._id, answer);
   kardata.score += a ? 1 : 0;
   kardsQ.enqueue(kardata);
-  return await getKard();
+  const nextKard = await getKard();
+  return { nextKard, a };
 }
 
 async function getKard() {

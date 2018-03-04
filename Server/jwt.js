@@ -1,9 +1,9 @@
 const jwt = require("jsonwebtoken");
 const userDB = require("./DB/userDB");
-const secret = "secret";
+const { JWTSecret } = require("./config.json");
 
 
-const timeBeforeReToken = 15 * 50;
+const timeBeforeReToken = 15 * 60;
 const timeBeforeReLogin = timeBeforeReToken * 2;
 
 const premission = {
@@ -11,11 +11,11 @@ const premission = {
   admin: 1
 };
 
-async function sign(userName, premission) {
+async function sign(id, premission) {
   let result = await jwt.sign({
-    name: userName,
+    id,
     premission
-  }, secret);
+  }, JWTSecret);
   return result;
 }
 
@@ -33,7 +33,7 @@ function verify(premission) {
       return;
     }
     try {
-      let user = await jwt.verify(token, secret);
+      let user = await jwt.verify(token, JWTSecret);
       if (premission > user.premission) {
         res.sendError("auth");
         return;
@@ -46,10 +46,10 @@ function verify(premission) {
       }
 
       if (timeSinceLogin > timeBeforeReToken) {
-        const newToken = await sign(user.name, user.premission);
-        const valid = await userDB.validateToken(user.name, token, newToken);
+        const newToken = await sign(user.id, user.premission);
+        const valid = await userDB.validateToken(user.id, token, newToken);
         if (valid) {
-          res.setToken(newToken);
+          res.cookie("userToken", newToken);
         } else {
           res.sendError("login");
           return;

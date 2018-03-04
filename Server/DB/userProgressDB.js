@@ -1,4 +1,4 @@
-const userModel = require("./models/userModel");
+const { userModel } = require("./models/userModel");
 const deckDB = require("./deckDB");
 
 const {
@@ -15,18 +15,18 @@ async function addDeck(userName, deckName) {
       progress: {
         $not: {
           $elemMatch: {
-            deck: deckName
+            name: deckName
           }
         }
       }
     }, {
-      $push: {
-        progress: {
-          kards,
-          deck: deckName
+        $push: {
+          progress: {
+            kards,
+            name: deckName
+          }
         }
-      }
-    });
+      });
     return result;
   }
 }
@@ -36,16 +36,16 @@ async function removeDeck(userName, deckName) {
     name: userName,
     progress: {
       $elemMatch: {
-        deck: deckName
+        name: deckName
       }
     }
   }, {
-    $pull: {
-      progress: {
-        deck: deckName
+      $pull: {
+        progress: {
+          name: deckName
+        }
       }
-    }
-  });
+    });
   return result;
 }
 
@@ -53,18 +53,18 @@ onKardAdded(async function (kard, deckName) {
   let user = await userModel.update({
     progress: {
       $elemMatch: {
-        deck: deckName
+        name: deckName
       }
     }
   }, {
-    $push: {
-      "progress.$.kards": {
-        _id: kard.id
+      $push: {
+        "progress.$.kards": {
+          _id: kard.id
+        }
       }
-    }
-  }, {
-    multi: true
-  });
+    }, {
+      multi: true
+    });
   return user;
 });
 
@@ -72,18 +72,18 @@ onKardRemoved(async function (ID, deckName) {
   let user = await userModel.update({
     progress: {
       $elemMatch: {
-        deck: deckName
+        name: deckName
       }
     }
   }, {
-    $pull: {
-      "progress.$.kards": {
-        _id: ID
+      $pull: {
+        "progress.$.kards": {
+          _id: ID
+        }
       }
-    }
-  }, {
-    multi: true
-  });
+    }, {
+      multi: true
+    });
   return user;
 });
 
@@ -91,18 +91,18 @@ onDeckRemoved(async function (deckName) {
   let upt = await userModel.update({
     progress: {
       $elemMatch: {
-        deck: deckName
+        name: deckName
       }
     }
   }, {
-    $pull: {
-      progress: {
-        deck: deckName
+      $pull: {
+        progress: {
+          name: deckName
+        }
       }
-    }
-  }, {
-    multi: true
-  });
+    }, {
+      multi: true
+    });
   return upt;
 });
 

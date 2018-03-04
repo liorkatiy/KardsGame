@@ -14,21 +14,48 @@ function modelSchema(schema) {
     inputs
   } = proTo(schema);
 
-  for (const key in schema) {
-    schema[key].name = key;
+  setSchema(schema, proto, inputs, "");
+  /* for (const key in schema) {
+      if(schema[key].value == null){
+      proto[key] ={};
+      }
+     schema[key].schemaName = key;
+ 
+     schema[key].input = Array.isArray(schema[key].value) ?
+       schema[key].value.length : 1;
+ 
+     setProps(proto, key,schema.schemaName);
+     setValidators(schema[key]);
+ 
+     if (!schema[key].noInput) {
+       setInput(schema[key], inputs);
+     }
+ }*/
 
+  return (o) => model(o, schema, proto);
+}
+
+function setSchema(schema, proto, inputs, path) {
+  if (path)
+    path = path + ".";
+  for (const key in schema) {
+    if (schema[key].value == null) {
+      proto[key] = {};
+      setSchema(schema[key], proto[key], inputs, path + key);
+      continue;
+    }
+    schema[key].schemaName = path + key;
+    schema.shouldProto = true;
     schema[key].input = Array.isArray(schema[key].value) ?
       schema[key].value.length : 1;
 
-    setProps(proto, key);
+    setProps(proto, key, schema[key].schemaName);
     setValidators(schema[key]);
 
     if (!schema[key].noInput) {
       setInput(schema[key], inputs);
     }
   }
-
-  return (o) => model(o, schema, proto);
 }
 
 /**
@@ -40,16 +67,37 @@ function modelSchema(schema) {
  */
 function model(o, schema, proto) {
   const privates = {};
-  for (const key in proto) {
-    if (schema[key].default != null && o[key] == null) {
-      privates[key] = setPrivateProp(schema[key].default);
-    } else {
-      privates[key] = setPrivateProp(o[key]);
-    }
-  }
-  const res = Object.create(proto);
+  const res = Object.create(proto, {});
+  setInstance(schema, privates, proto, res, res, o);
+  /* for (const key in proto) {
+     if (schema[key].default != null && o[key] == null) {
+       privates[key] = setPrivateProp(schema[key].default);
+     } else {
+       privates[key] = setPrivateProp(o[key]);
+     }
+   }*/
+
   setMap(res, privates);
   return res;
+}
+
+function setInstance(schema, privates, proto, result, parentRes, obj) {
+  if (schema.shouldProto) {
+    result._p = parentRes;
+  }
+
+  for (const key in proto) {
+    if (schema[key].value == null) {
+      result[key] = schema[key].shouldProto ? Object.create(proto[key], {}) : {};
+      setInstance(schema[key], privates, proto[key], result[key], parentRes, obj[key]);
+      continue;
+    }
+    if (!obj || (schema[key].default != null && obj[key] == null)) {
+      privates[schema[key].schemaName] = setPrivateProp(schema[key].default);
+    } else {
+      privates[schema[key].schemaName] = setPrivateProp(obj[key]);
+    }
+  }
 }
 
 const setPrivateProp = (value) => {

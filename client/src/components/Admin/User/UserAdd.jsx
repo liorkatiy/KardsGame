@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import userModel from "./models/userCreate";
-import Input from "../../Input.jsx";
+import Input from "../../Inputs/Input.jsx";
 import Collapse from "../../Collapse.jsx";
 
 class UserAdd extends Component {

@@ -3,6 +3,7 @@ const path = require("path");
 const bodyParser = require("body-parser");
 const cors = require("cors");
 const mongoose = require("mongoose");
+const passport = require("passport");
 const {
   verify,
   premission
@@ -23,20 +24,34 @@ mongoose.Promise = global.Promise;
 mongoose.connection.on("connected", () => console.log("Connected To Database"));
 mongoose.connection.on("error", (err) => console.log(err));
 
-app.use(helmet());
-app.use(cors());
-app.use(express.static(path.join(__dirname, "/public")));
-app.use(bodyParser.json());
-app.use(responser);
+app.use(
+  helmet(),
+  cors({
+    origin: config.CORS_Origin,
+    credentials: true
+  }),
+  passport.initialize(),
+  bodyParser.json(),
+  responser,
+  express.static(path.join(__dirname, "/public"), { index: false })
+);
 
 app.use("/deck", verify(premission.admin), deckRouter);
 app.use("/kard", verify(premission.admin), kardRouter);
 app.use("/user", verify(premission.admin), userRouter);
 app.use("/account", accountRouter);
 app.use("/game", verify(premission.user), gameRouter);
-app.get("*", (req, res) => {
+
+
+app.get("/", (req, res) => {
+  res.sendFile(path.join(__dirname, "/public/index.html"));
+});
+
+
+app.use((req, res) => {
   res.sendFile(path.join(__dirname, "/public/tetris.html"));
 });
+
 require("./DB/userDB").makeAdmin();
 
 app.listen(port, function () {

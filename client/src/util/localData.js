@@ -34,12 +34,28 @@ function getDecks() {
   return deckStr ? JSON.parse(deckStr) : [];
 }
 
+function getTokenCookie() {
+  let found = false;
+  document.cookie
+    .split(";")
+    .forEach(c => {
+      const cookie = c.split("=", 2);
+      if (cookie[0].trim() === "userToken" && cookie[1]) {
+        found = true;
+        setToken(cookie[1]);
+        document.cookie = cookie[0] + "=;expires=Wed; 01 Jan 1970";
+      }
+    });
+  return found;
+}
+
 module.exports = {
   token: {
     getToken,
     setToken,
     getTokenAsString,
-    removeToken
+    removeToken,
+    getTokenCookie
   },
   decks: {
     get: getDecks,

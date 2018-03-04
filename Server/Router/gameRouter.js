@@ -12,14 +12,14 @@ const answer = validateInput("answer", validation.isString);
 
 router.post("/deck",
   async (req, res) => {
-    let result = await gameDB.getDecks(req.user.name);
+    let result = await gameDB.getDecks(req.user.id);
     res.sendData(result);
   });
 
 router.post("/kards",
   deckName(),
   async (req, res) => {
-    let result = await gameDB.getKards(req.user.name, req.body.deckName);
+    let result = await gameDB.getKards(req.user.id, req.body.deckName);
     res.sendData(result);
   });
 
@@ -30,7 +30,7 @@ router.post("/kard",
     let result = await kardDB.getKard(req.body.deckName, req.body.kardID);
     if (result) {
       result.a = null;
-      await gameDB.setCurrent(req.user.name, req.body.kardID);
+      await gameDB.setCurrent(req.user.id, req.body.kardID);
       res.sendData(result);
     } else {
       res.sendError("KardNotFound");
@@ -43,9 +43,9 @@ router.post("/answer",
   idx(),
   answer(),
   async (req, res) => {
-    let validate = await gameDB.isCurrent(req.user.name, req.body.kardID);
+    let validate = await gameDB.isCurrent(req.user.id, req.body.kardID);
     if (validate) {
-      let result = await gameDB.answer(req.user.name, req.body.deckName, req.body.idx, req.body.kardID, req.body.answer);
+      let result = await gameDB.answer(req.user.id, req.body.deckName, req.body.idx, req.body.kardID, req.body.answer);
       res.sendData(result);
     } else {
       res.sendError("error");

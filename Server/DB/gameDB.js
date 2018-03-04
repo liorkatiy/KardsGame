@@ -1,10 +1,10 @@
-const userModel = require("./models/userModel");
+const { userModel } = require("./models/userModel");
 const deckModel = require("./models/deckModel");
 
-async function answer(userName, deckName, idx, kardId, answer) {
+async function answer(id, deckName, idx, kardId, answer) {
   let _answer = await validateAnswer(deckName, kardId, answer);
   if (_answer) {
-    await changeScore(userName, deckName, idx, kardId, _answer);
+    await changeScore(id, deckName, idx, kardId, _answer);
   }
   return _answer;
 }
@@ -22,10 +22,10 @@ async function validateAnswer(DeckName, kardId, answer) {
   return result == 1;
 }
 
-async function changeScore(userName, deckName, idx, kardID, inc) {
-  inc = inc ? 1 : 0;
+async function changeScore(id, deckName, idx, kardID, inc) {
+  inc = inc ? 1 : -1;
   let result = await userModel.update({
-    name: userName,
+    _id: id,
     ["progress." + idx + ".kards"]: {
       $elemMatch: {
         _id: kardID
@@ -41,16 +41,16 @@ async function changeScore(userName, deckName, idx, kardID, inc) {
   return result;
 }
 
-async function getKards(userName, deckName) {
+async function getKards(id, deckName) {
   let result = await userModel.findOne({
-    name: userName,
-    "progress.deck": deckName
+    _id: id,
+    "progress.name": deckName
   }, {
       progress: 1
     });
   if (result) {
     for (let i = 0; i < result.progress.length; i++) {
-      if (result.progress[i].deck === deckName) {
+      if (result.progress[i].name === deckName) {
         return {
           kards: result.progress[i].kards,
           idx: i
@@ -61,30 +61,28 @@ async function getKards(userName, deckName) {
   }
 }
 
-async function setCurrent(userName, kardID) {
+async function setCurrent(id, kardID) {
   let result = await userModel.update({
-    name: userName
+    _id: id
   }, {
       currentKard: kardID
     });
   return result;
 }
 
-async function isCurrent(userName, kardID) {
+async function isCurrent(id, kardID) {
   let result = await userModel.count({
-    name: userName,
+    _id: id,
     currentKard: kardID
   });
   return result;
 }
 
-
-
-async function getDecks(userName) {
+async function getDecks(_id) {
   let result = await userModel.findOne({
-    name: userName,
+    _id,
   }, {
-      "progress.deck": 1
+      "progress.name": 1
     });
   if (result) {
     return result.progress;

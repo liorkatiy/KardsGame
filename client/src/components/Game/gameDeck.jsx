@@ -18,12 +18,21 @@ class componentName extends Component {
   }
 
   async answer() {
-    const kard = await this.props.answer(this._answer);
-    this.setState({ kard });
+    if (this._answer) {
+      this.last.checked = false;
+      const data = await this.props.answer(this._answer);
+      alert(data.a ? ":)" : ":(");
+      this._answer = "";
+      this.setState({ kard: data.nextKard });
+    }
+    else {
+      alert("pick answer");
+    }
   }
 
   async dataChanged(e) {
     this._answer = e.target.value;
+    this.last = e.target;
   }
 
   render() {
@@ -31,8 +40,30 @@ class componentName extends Component {
       return (
         <div className="card" >
           <div>Question: {this.state.kard.q}</div>
-          <div>Help: {this.state.kard.h}</div>
-          <input type="text" placeholder="answer" onChange={this.dataChanged} defaultValue="" />
+          <div>
+            <input name="answer" type="radio"
+              value="q1"
+              onClick={this.dataChanged} />
+            {this.state.kard.q1}
+          </div>
+          <div>
+            <input name="answer" type="radio"
+              value="q2"
+              onClick={this.dataChanged} />
+            {this.state.kard.q2}
+          </div>
+          <div>
+            <input name="answer" type="radio"
+              value="q3"
+              onClick={this.dataChanged} />
+            {this.state.kard.q3}
+          </div>
+          <div>
+            <input name="answer" type="radio"
+              value="q4"
+              onClick={this.dataChanged} />
+            {this.state.kard.q4}
+          </div>
           <input type="button" value="answer" onClick={this.answer} />
         </div>
       );

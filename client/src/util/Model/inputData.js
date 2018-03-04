@@ -109,7 +109,7 @@ const setInputValidator = (schema) => {
 
 const setInputDefault = (schema) => {
   return (input, privates) => {
-    input.name = schema.name;
+    input.name = schema.schemaName;
     privates.input++;
     if (schema.type)
       input.type = schema.type;

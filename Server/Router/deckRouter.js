@@ -6,17 +6,19 @@ const validation = require("../validationSchema");
 
 const name = getData("name", validation.deckName);
 const newName = getData("newName", validation.deckName);
+const isString = getData("name", validation.isString);
 
 router.post("/",
   name(),
   async (req, res) => {
     let n = req.body.name;
-    let result = await deck.createDeck(n);
+    let d = req.body.isDefault ? true : false;
+    let result = await deck.createDeck(n, d);
     res.sendData(result);
   });
 
 router.get("/",
-  name(true),
+  isString(true),
   async (req, res) => {
     let n = req.query.name;
     let o = req.query.onlyName;
@@ -30,7 +32,8 @@ router.put("/",
   , async (req, res) => {
     let n = req.body.name;
     let a = req.body.newName;
-    let result = await deck.editDeck(n, a);
+    let d = req.body.isDefault ? true : false;
+    let result = await deck.editDeck(n, a, d);
     res.sendData(result);
   });
 

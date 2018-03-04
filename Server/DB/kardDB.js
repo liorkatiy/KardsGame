@@ -4,8 +4,9 @@ const {
   kardRemoved
 } = require("./events");
 
-async function createKard(deckName, q1, q2, q3, q4, a, ) {
+async function createKard(deckName, q, q1, q2, q3, q4, a) {
   let k = {
+    q,
     q1,
     a,
     q2, q3, q4

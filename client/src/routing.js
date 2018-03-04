@@ -1,8 +1,7 @@
 import asyncLoader from "./components/AsyncLoader.jsx";
 import {
   user,
-  deck,
-  game
+  deck
 } from "./util/dbFetch";
 import AdminDeck from "./components/Admin/AdminDeck.jsx";
 import AdminUser from "./components/Admin/AdminUser.jsx";
@@ -27,7 +26,7 @@ class Router {
   }
   get adminDeck() {
     return asyncLoader(AdminDeck, {
-      decks: setItem(deck.getDeck, "")
+      decks: setItem(deck.getDeck)
     });
   }
 
