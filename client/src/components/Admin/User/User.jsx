@@ -114,7 +114,7 @@ class User extends Component {
             <MdEdit />
           </button>
         </div>
-
+        {this.user.display("name")}
         <Collapse open={this.state.open}>
           <form className="card col-sm-8" onSubmit={(e) => e.preventDefault()} >
             <Input name="User Name" type="name" set={i} clear={c} />

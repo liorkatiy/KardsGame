@@ -56,7 +56,7 @@ function setValidation(validation) {
   }
 
   if (validation.isNumeric) {
-    result.push((s) => validator.isNumeric(s));
+    result.push((s) => validator.isNumeric(s.toString()));
   }
 
   if (validation.isDate) {
@@ -76,13 +76,18 @@ function setValidation(validation) {
 
 function validationReturn(result) {
   return (s) => {
-    for (let i = 0; i < result.length; i++) {
-      if (!result[i](s)) {
-        return false;
+    try {
+      for (let i = 0; i < result.length; i++) {
+        if (!result[i](s)) {
+          return false;
+        }
       }
+      return true;
     }
-    return true;
-  };
+    catch (e) {
+      return false;
+    }
+  }
 }
 
 function getDataFromRequest(req, name) {

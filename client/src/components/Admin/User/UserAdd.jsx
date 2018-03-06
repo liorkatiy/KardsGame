@@ -51,7 +51,6 @@ class UserAdd extends Component {
               className="form-control btn btn btn-outline-primary"
               value="ADD"
               onClick={this.addUser} />
-
           </form>
         </Collapse>
       </div>);

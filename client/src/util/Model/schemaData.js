@@ -34,7 +34,7 @@ export const setInput = (schema, inputs) => {
 
 export const setValidators = (schema) => {
   if (schema.validators) {
-    const name = schema.alias || schema.name;
+    const name = schema.alias || schema.schemaName;
 
     if (isNotFunc(schema.validators["required"])) {
       const msg = name + " Is Required";

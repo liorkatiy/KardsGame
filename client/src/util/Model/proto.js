@@ -1,6 +1,8 @@
 import {
   getMap
 } from "./schemaData";
+import React from "react";
+
 const protoBase = {};
 
 Object.defineProperty(protoBase, "clear", {
@@ -19,7 +21,14 @@ Object.defineProperty(protoBase, "getModel", {
 
 const clear = (obj) => {
   for (const key in obj) {
-    obj[key] = Array.isArray(obj[key]) ? [] : "";
+    if (key === "_p") {
+      continue;
+    }
+    if (typeof obj[key] === "object" && !Array.isArray(obj[key])) {
+      clear(obj[key]);
+    } else {
+      obj[key] = Array.isArray(obj[key]) ? [] : "";
+    }
   }
 };
 
@@ -29,7 +38,7 @@ const getModel = (obj) => {
     if (key === "_p") {
       continue;
     }
-    if (typeof obj[key] === "object") {
+    if (typeof obj[key] === "object" && !Array.isArray(obj[key])) {
       result[key] = getModel(obj[key]);
     } else {
       result[key] = obj[key];
@@ -38,7 +47,7 @@ const getModel = (obj) => {
   return result;
 };
 
-export default (schema) => {
+export default () => {
   const proto = Object.create(protoBase);
   const inputs = {};
   Object.defineProperty(proto, "inputs", {
@@ -46,6 +55,19 @@ export default (schema) => {
       return ((name, func) => {
         return inputs[name].call(this, func);
       });
+    },
+    enumerable: false
+  });
+
+  Object.defineProperty(proto, "display", {
+    value: function (name) {
+      const pr = getMap(this);
+      return <span ref={(i) => {
+        pr[name].display = i;
+        pr[name].onChange.push(val => pr[name].display ? pr[name].display.innerHTML = val : null);
+        if (pr[name].display)
+          pr[name].display.innerHTML = pr[name].value;
+      }}  ></span>;
     },
     enumerable: false
   });

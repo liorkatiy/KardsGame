@@ -91,7 +91,15 @@ const localUserSchema = {
 
 const userModel = mongoose.model("user", userSchema);
 const localUserModel = mongoose.model("localUser", localUserSchema);
-//userModel.find({}, {}, {})
+userModel.schema.post('remove', function (next) {
+  console.log(this);
+  next();
+});
+
+userModel.schema.pre('save', function (next) {
+  console.log(this);
+  next();
+});
 module.exports = {
   userModel: modelHandler(userModel, "user"),
   localUserModel: modelHandler(localUserModel, "user")

@@ -16,9 +16,6 @@ class Radio extends Component {
   }
 
   onError(err) {
-    /* if (this.props.onChange) {
-       this.props.onChange();
-     }*/
     if (this.state.err !== err) {
       this.setState({ err });
     }
@@ -26,7 +23,7 @@ class Radio extends Component {
 
   render() {
 
-    let cls = "";
+    let cls = "form-control";
 
     if (this.state.err == null) {
       cls += " is-valid";
@@ -39,11 +36,11 @@ class Radio extends Component {
       <div className="form-group mb-4">
         {this.props.names.map((n, i) =>
           <div key={i} className="form-check">
-            <label className="form-check-label" htmlFor="input">
+            <label className="form-check-label" htmlFor={id}>
               <input className="form-check-input"
                 id={id}
                 ref={this.props.set(this.props.type, this.onError)} />
-              {n}
+              <span>: {n}</span>
             </label>
           </div>)}
         <input className={cls}
@@ -52,7 +49,6 @@ class Radio extends Component {
         <div className="invalid-feedback">
           {this.state.err}
         </div>
-
       </div>
     );
   }

@@ -1,7 +1,7 @@
 import model from "../../../../util/Model/model";
 
 export default model({
-  _id: {
+  id: {
     value: ""
   },
   q: {
