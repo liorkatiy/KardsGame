@@ -13,14 +13,15 @@ class componentName extends Component {
   }
 
   componentWillUnmount() {
-    console.log("unmounting");
     this.setState = () => console.log("xD");
   }
 
   async answer() {
     if (this._answer) {
       this.last.checked = false;
+      this.refs.btnAnswer.disabled = true;
       const data = await this.props.answer(this._answer);
+      this.refs.btnAnswer.disabled = false;
       alert(data.a ? ":)" : ":(");
       this._answer = "";
       this.setState({ kard: data.nextKard });
@@ -64,7 +65,7 @@ class componentName extends Component {
               onClick={this.dataChanged} />
             {this.state.kard.q4}
           </div>
-          <input type="button" value="answer" onClick={this.answer} />
+          <input type="button" ref="btnAnswer" value="answer" onClick={this.answer} />
         </div>
       );
     }

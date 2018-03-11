@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { account } from "../../util/dbFetch";
+import account from "../../util/serverFetcher/accountData";
 import userModel from "../Admin/User/models/userCreate";
 import Input from "../Inputs/Input.jsx";
 

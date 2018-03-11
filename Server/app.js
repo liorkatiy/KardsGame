@@ -38,7 +38,7 @@ app.use(
 
 app.use("/deck", verify(premission.admin), deckRouter);
 app.use("/kard", verify(premission.admin), kardRouter);
-app.use("/user", verify(premission.admin), userRouter);
+app.use("/user", verify(premission.SA), userRouter);
 app.use("/account", accountRouter);
 app.use("/game", verify(premission.user), gameRouter);
 
@@ -46,7 +46,6 @@ app.use("/game", verify(premission.user), gameRouter);
 app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, "/public/index.html"));
 });
-
 
 app.use((req, res) => {
   res.sendFile(path.join(__dirname, "/public/tetris.html"));

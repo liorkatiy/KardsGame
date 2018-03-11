@@ -9,7 +9,7 @@ const _userData = getData("user.userData", validation.userData);
 const _userName = getData("user.name", validation.userName);
 const _userID = getData("user._id", validation.isMongo);
 const userName = getData("userName", validation.userName);
-const deckName = getData("deckName", validation.userName);
+const deckName = getData("deckName", validation.deckName);
 const password = getData("password", validation.password);
 const id = getData("id", validation.isMongo);
 const isString = getData("name", validation.isString);
@@ -33,20 +33,20 @@ router.post("/",
   });
 
 router.post("/add",
-  userName(),
+  id(),
   deckName(),
   async (req, res) => {
-    let n = req.body.userName;
+    let n = req.body.id;
     let p = req.body.deckName;
     let result = await prog.addDeck(n, p);
     res.sendData(result);
   });
 
 router.delete("/remove",
-  userName(),
+  id(),
   deckName(),
   async (req, res) => {
-    let n = req.body.userName;
+    let n = req.body.id;
     let p = req.body.deckName;
     let result = await prog.removeDeck(n, p);
     res.sendData(result);

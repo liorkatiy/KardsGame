@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './App.jsx';
 import { token, decks } from "./util/localData";
-import { game } from "./util/dbFetch";
+import game from "./util/serverFetcher/gameData";
 //import registerServiceWorker from './registerServiceWorker';
 
 (async function init() {

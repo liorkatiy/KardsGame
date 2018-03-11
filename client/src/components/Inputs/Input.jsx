@@ -39,7 +39,7 @@ class Input extends Component {
       <div className="form-group mb-4">
         <label
           className="control-label  col-sm-12"
-          htmlFor="input" >
+          htmlFor={id} >
           {this.props.name}:
         <input className={cls}
             id={id}

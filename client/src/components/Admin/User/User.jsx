@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { user } from '../../../util/dbFetch';
+import user from '../../../util/serverFetcher/userData';
 import Progress from './progress.jsx';
 import UserDeckAdd from "./UserDeckAdd.jsx";
 import { localUser, googleUser } from "./models/user";
@@ -7,6 +7,12 @@ import Input from "../../Inputs/Input.jsx";
 import Collapse from "../../Collapse.jsx";
 import Select from "../../Inputs/Select.jsx";
 import { MdDelete, MdEdit } from "react-icons/lib/md";
+
+const options = [
+  { value: 0, name: "user" },
+  { value: 1, name: "admin" },
+  { value: 2, name: "super admin" },
+];
 
 class User extends Component {
   constructor(props) {
@@ -23,7 +29,7 @@ class User extends Component {
 
   async addDeck(deck) {
     try {
-      const g = await user.addProg(this.user.name, deck);
+      const g = await user.addProg(this.user._id, deck);
       if (g) {
         const progress = this.state.progress;
         progress.push({ name: deck });
@@ -39,7 +45,7 @@ class User extends Component {
   }
 
   async removeDeck(deckName) {
-    let removed = await user.removeProg(this.user.name, deckName);
+    let removed = await user.removeProg(this.user._id, deckName);
     if (removed) {
       const progress = this.state.progress.filter(p => p.name !== deckName);
       this.setState({ progress });
@@ -65,13 +71,7 @@ class User extends Component {
   async remove() {
     const user = this.user;
     const isLocal = this.user.userData.localUserID ? true : false;
-    let v = await this.props.remove(user._id, isLocal);
-    if (v) {
-      alert("removed " + user.name);
-    }
-    else {
-      alert("error couldnt delete " + user.name);
-    }
+    await this.props.remove(user._id, isLocal, this.user.name);
   }
 
   haveProgress() {
@@ -91,10 +91,6 @@ class User extends Component {
   render() {
     const i = this.user.inputs;
     const c = this.state.clear;
-    const options = [
-      { value: 0, name: "user" },
-      { value: 1, name: "admin" }
-    ];
     return (
       <div className="mt-3">
         <div className="input-group col-sm-8">
@@ -114,7 +110,6 @@ class User extends Component {
             <MdEdit />
           </button>
         </div>
-        {this.user.display("name")}
         <Collapse open={this.state.open}>
           <form className="card col-sm-8" onSubmit={(e) => e.preventDefault()} >
             <Input name="User Name" type="name" set={i} clear={c} />

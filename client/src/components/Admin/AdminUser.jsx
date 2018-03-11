@@ -2,7 +2,7 @@ import React from 'react';
 import User from "./User/User.jsx";
 import UserAdd from "./User/UserAdd.jsx";
 import UserSearch from "./User/UserSearch.jsx";
-import { user } from '../../util/dbFetch';
+import user from '../../util/serverFetcher/userData';
 import PropTypes from 'prop-types';
 
 class AdminUser extends React.Component {
@@ -31,13 +31,14 @@ class AdminUser extends React.Component {
     this.setState({ users });
   }
 
-  async removeUser(id, isLocal) {
+  async removeUser(id, isLocal, name) {
     let removed = await user.removeUser(id, isLocal);
     if (removed) {
+      alert("removed " + name);
       const users = this.state.users.filter(u => u._id !== id);
       this.setState({ users });
     } else {
-      alert("bahh");
+      alert("error couldnt delete " + name);
     }
   }
 

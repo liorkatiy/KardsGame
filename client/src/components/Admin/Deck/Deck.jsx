@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import Kard from './kard.jsx';
-import { kard } from "../../../util/dbFetch";
+import kard from "../../../util/serverFetcher/kardData";
 import DeckEdit from "./DeckEdit.jsx";
 import KardAdd from "./KardAdd.jsx";
 import Collapse from "../../Collapse.jsx";
@@ -25,7 +25,6 @@ class Deck extends Component {
 
   async removeKard(id) {
     const g = await kard.removeKard(this.currentName, id);
-    console.log(g);
     const kards = this.state.kards;
     for (let i = 0; i < kards.length; i++) {
       if (kards[i]._id === id) {
@@ -37,7 +36,6 @@ class Deck extends Component {
 
   async editKard(_kard) {
     const g = await kard.editKard(_kard.getModel(), this.props.deck.name);
-    console.log(g);
   }
 
   render() {

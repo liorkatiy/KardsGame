@@ -21,5 +21,6 @@ const userData = {
     }
     return false;
   }
-}
+};
+
 module.exports = { isString, deckName, password, userName, isMongo, isNumeric, userData };

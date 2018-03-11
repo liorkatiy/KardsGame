@@ -14,7 +14,7 @@ class KardAdd extends Component {
       this.kard.display("q2"),
       this.kard.display("q3"),
       this.kard.display("q4")
-    ]
+    ];
     this.addKard = this.addKard.bind(this);
     this.reset = this.reset.bind(this);
     this.setAnswer = this.setAnswer.bind(this); this.state = { open: false, clear: false };
@@ -38,9 +38,9 @@ class KardAdd extends Component {
 
   render() {
     const i = this.kard.inputs;
-    const names = [this.kard.q1, this.kard.q2, this.kard.q3, this.kard.q4, this.kard.q];
-    const haveQuestions = names.filter(n => n).length === 4;
-    const hideanswer = haveQuestions ? {} : { display: "none" };
+    //const names = [this.kard.q1, this.kard.q2, this.kard.q3, this.kard.q4, this.kard.q];
+    //const haveQuestions = names.filter(n => n).length === 4;
+    //const hideanswer = haveQuestions ? {} : { display: "none" };
     return (
       <div>
         <button className=" form-control col-sm-6" onClick={() => this.setState({ open: !this.state.open })} >Add Kard</button>
@@ -64,15 +64,3 @@ class KardAdd extends Component {
 }
 
 export default KardAdd;
-
-/*
- <Input name={this.kard.q1} type="a" set={i} clear={this.state.clear} onChange={this.reset} />
-          <Input name={this.kard.q2} type="a" set={i} clear={this.state.clear} onChange={this.reset} />
-          <Input name={this.kard.q3} type="a" set={i} clear={this.state.clear} onChange={this.reset} />
-          <Input name={this.kard.q4} type="a" set={i} clear={this.state.clear} onChange={this.reset} />
-
-          <div> <input type="radio" name="answer" value={this.kard.q1} onClick={this.setAnswer} /> {this.kard.q1}</div>
-          <div> <input type="radio" name="answer" value={this.kard.q2} onClick={this.setAnswer} /> {this.kard.q2}</div>
-          <div> <input type="radio" name="answer" value={this.kard.q3} onClick={this.setAnswer} /> {this.kard.q3}</div>
-          <div> <input type="radio" name="answer" value={this.kard.q4} onClick={this.setAnswer} /> {this.kard.q4}</div>
-          */

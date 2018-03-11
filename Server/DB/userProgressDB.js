@@ -7,11 +7,11 @@ const {
   onKardRemoved
 } = require("./events");
 
-async function addDeck(userName, deckName) {
+async function addDeck(_id, deckName) {
   let kards = await deckDB.getKards(deckName);
   if (kards) {
     let result = await userModel.update({
-      name: userName,
+      _id,
       progress: {
         $not: {
           $elemMatch: {
@@ -31,9 +31,9 @@ async function addDeck(userName, deckName) {
   }
 }
 
-async function removeDeck(userName, deckName) {
+async function removeDeck(_id, deckName) {
   let result = await userModel.update({
-    name: userName,
+    _id,
     progress: {
       $elemMatch: {
         name: deckName

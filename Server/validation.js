@@ -1,9 +1,9 @@
 const validator = require('validator');
 /**
  * 
- * @param {string} s 
+ * @param {any} s 
  */
-const custom = (s) => { };
+const custom = (s) => s === 0;
 
 const validatorParams = {
   isMongoID: true,
@@ -87,7 +87,7 @@ function validationReturn(result) {
     catch (e) {
       return false;
     }
-  }
+  };
 }
 
 function getDataFromRequest(req, name) {

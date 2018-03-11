@@ -1,7 +1,7 @@
 import React from 'react';
 import Deck from "./Deck/Deck.jsx";
 import AddDeck from "./Deck/DeckAdd.jsx";
-import { deck } from '../../util/dbFetch';
+import deck from '../../util/serverFetcher/deckData';
 import UserSearch from "./User/UserSearch.jsx";
 
 class Admin extends React.Component {

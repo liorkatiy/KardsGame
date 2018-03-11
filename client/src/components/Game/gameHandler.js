@@ -1,4 +1,4 @@
-import { game } from "../../util/dbFetch";
+import game from "../../util/serverFetcher/gameData";
 import PQ from "../../util/priorityQueue";
 
 function compareKards(k1, k2) {

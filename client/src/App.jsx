@@ -2,7 +2,7 @@ import React from 'react';
 import { BrowserRouter, Route, Switch, Link } from "react-router-dom";
 import { token, decks } from "./util/localData";
 import router from "./routing";
-import { game } from "./util/dbFetch";
+import game from "./util/serverFetcher/gameData";
 import { setLoginError } from "./util/events";
 import "./CSS/App.css";
 import { NavBar as Nav, LiLink } from "./components/Nav.jsx";
@@ -73,7 +73,7 @@ class App extends React.Component {
     return token ?
       <Nav>
         <ul className="navbar-nav mr-auto">
-          {token.premission ? <LiLink to="/user" name="Users" /> : null}
+          {token.premission > 1 ? <LiLink to="/user" name="Users" /> : null}
           {token.premission ? <LiLink to="/deck" name="Decks" /> : null}
           <li className="nav-item dropdown dropdown-primary">
             <button className="btn btn-primary" onClick={this.collapseDropDown}>Game Decks</button>
@@ -99,7 +99,7 @@ class App extends React.Component {
     if (token) {
       return <Switch>
         {token.premission ? <Route path="/deck" component={router.adminDeck} /> : null}
-        {token.premission ? <Route path="/user" component={router.adminUser} /> : null}
+        {token.premission > 1 ? <Route path="/user" component={router.adminUser} /> : null}
         <Route path="/" component={router.game(this.deck)} />
       </Switch>;
     } else {

@@ -34,6 +34,7 @@
     "no-var": "warn",
     "constructor-super": "warn",
     "valid-typeof": "warn",
-    "strict": "error"
+    "strict": "error",
+    "no-console": "warn"
   }
 }

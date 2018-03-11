@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
-import { account } from "../../util/dbFetch";
+import account from "../../util/serverFetcher/accountData";
 import userModel from "../Admin/User/models/userCreate";
 import Input from "../Inputs/Input.jsx";
+import Google from "react-icons/lib/fa/google";
 
 class Login extends Component {
   constructor() {
@@ -29,8 +30,8 @@ class Login extends Component {
   render() {
     const i = this.user.inputs;
     return (
-      <div  >
-        <a href="http://localhost:9001/account/google">google</a>
+      <div>
+        <a href="/account/google"><Google size="26" /></a>
         <Input set={i} type="name" name="User Name" />
         <Input set={i} type="password" name="Password" />
         <input className="form-control" type="button" value="Login" onClick={this.login} />

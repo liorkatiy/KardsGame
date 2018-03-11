@@ -1,8 +1,6 @@
 import asyncLoader from "./components/AsyncLoader.jsx";
-import {
-  user,
-  deck
-} from "./util/dbFetch";
+import user from "./util/serverFetcher/userData";
+import deck from "./util/serverFetcher/deckData";
 import AdminDeck from "./components/Admin/AdminDeck.jsx";
 import AdminUser from "./components/Admin/AdminUser.jsx";
 import Game from "./components/Game/game.jsx";

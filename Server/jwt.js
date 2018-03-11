@@ -8,7 +8,8 @@ const timeBeforeReLogin = timeBeforeReToken * 2;
 
 const premission = {
   user: 0,
-  admin: 1
+  admin: 1,
+  SA: 2
 };
 
 async function sign(id, premission) {

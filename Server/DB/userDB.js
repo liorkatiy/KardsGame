@@ -76,7 +76,7 @@ async function makeAdmin() {
   const SA = await createUser("SA", "123456");
   if (SA) {
     const { localUserID } = SA.userData;
-    localUserID.premission = 1;
+    localUserID.premission = 2;
     await localUserID.save();
     console.log("Admin Created");
   }
