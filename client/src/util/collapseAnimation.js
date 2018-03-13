@@ -25,9 +25,9 @@ const animate = function (elem, open, duration = 2, fps = 60) {
     else {
       if (elem.classList.contains("closedElement")) {
         elem.classList.remove("closedElement");
-        elem.style.height = "auto";
-        height = elem.offsetHeight;
-        elem.style.height = 0 + "px";
+        /* elem.style.height = "auto";
+         height = elem.offsetHeight;
+         elem.style.height = 0 + "px";*/
       }
       else {
         height = elem.offsetHeight;
@@ -38,6 +38,7 @@ const animate = function (elem, open, duration = 2, fps = 60) {
     const style = elem.style;
     const animation = () => {
       p += step;
+      p = p > 1 ? 1 : p < 0 ? 0 : p;
       style.height = height * p + "px";
       style.borderBottomWidth = bbottom * p + "px";
       style.borderTopWidth = btop * p + "px";
@@ -45,12 +46,13 @@ const animate = function (elem, open, duration = 2, fps = 60) {
       style.paddingBottom = pbottom * p + "px";
       style.opacity = p;
 
-      if (1 < p || p < 0) {
+      if (p === 0 || p === 1) {
         clearInterval(timeOutFunc);
         timeOutFunc = false;
-        p = Math.round(p);
+        //p = Math.round(p);
         if (p >= 1) {
           elem.style.height = "auto";
+          //height = elem.offsetHeight;
         }
         else {
           elem.classList.add("closedElement");

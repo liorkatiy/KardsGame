@@ -24,18 +24,24 @@ class Deck extends Component {
   }
 
   async removeKard(id) {
-    const g = await kard.removeKard(this.currentName, id);
-    const kards = this.state.kards;
-    for (let i = 0; i < kards.length; i++) {
-      if (kards[i]._id === id) {
-        kards.splice(i, 1);
-        this.setState({ kards: kards });
+    const removed = await kard.removeKard(this.currentName, id);
+    if (removed) {
+      const kards = this.state.kards;
+      for (let i = 0; i < kards.length; i++) {
+        if (kards[i]._id === id) {
+          kards.splice(i, 1);
+          this.setState({ kards: kards });
+        }
       }
+      alert("Kard Removed");
+    } else {
+      alert("Couldn't Remove Kard");
     }
   }
 
   async editKard(_kard) {
-    const g = await kard.editKard(_kard.getModel(), this.props.deck.name);
+    const edited = await kard.editKard(_kard.getModel(), this.props.deck.name);
+    alert(edited ? "Kard Edited" : "Couldn't Edit Kard");
   }
 
   render() {

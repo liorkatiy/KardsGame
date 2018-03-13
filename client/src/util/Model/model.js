@@ -79,6 +79,7 @@ function setInstance(schema, privates, proto, result, parentRes, obj) {
 const setPrivateProp = (value) => {
   return {
     validate: false,
+    isDisplayed: false,
     input: 0,
     onChange: [],
     _value: value,

@@ -1,8 +1,9 @@
 import model from "../../../../util/Model/model";
 
 export default model({
-  id: {
-    value: ""
+  _id: {
+    value: "",
+    noInput: true
   },
   q: {
     value: "",

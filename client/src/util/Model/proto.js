@@ -61,12 +61,15 @@ export default () => {
 
   Object.defineProperty(proto, "display", {
     value: function (name) {
-      const pr = getMap(this);
+      const pr = getMap(this)[name];
       return <span ref={(i) => {
-        pr[name].display = i;
-        pr[name].onChange.push(val => pr[name].display ? pr[name].display.innerHTML = val : null);
-        if (pr[name].display)
-          pr[name].display.innerHTML = pr[name].value;
+        pr.display = i;
+        if (pr.display)
+          pr.display.innerHTML = pr.value;
+        if (!pr.isDisplayed) {
+          pr.isDisplayed = true;
+          pr.onChange.push(val => pr.display ? pr.display.innerHTML = val : null);
+        }
       }}  ></span>;
     },
     enumerable: false

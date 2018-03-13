@@ -16,7 +16,7 @@ class Kard extends Component {
   }
 
   removeKard() {
-    this.props.removeKard(this.props.kard._id);
+    this.props.removeKard(this.kard._id);
   }
 
   editKard() {
