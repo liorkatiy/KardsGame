@@ -1,6 +1,5 @@
+import collapseAnimation from "../../util/collapseAnimation";
 import React from "react";
-import { Link } from "react-router-dom";
-import collapseAnimation from "../util/collapseAnimation";
 
 class Nav extends React.Component {
 
@@ -9,7 +8,6 @@ class Nav extends React.Component {
 
   }
   collapse() {
-    //  this.refs.collapse.classList.toggle("collapse");
     this.collapse();
   }
 
@@ -32,11 +30,4 @@ class Nav extends React.Component {
   }
 }
 
-export const LiLink = (props) =>
-  <li className="nav-item">
-    <Link onClick={props.onClick} className="btn btn-primary" to={props.to}>
-      {props.name}
-    </Link>
-  </li>;
-
-export const NavBar = Nav;
+export default Nav;

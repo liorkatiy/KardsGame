@@ -60,12 +60,11 @@ class User extends Component {
       let v = await this.props.edit(this.user.getModel());
       if (v) {
         alert("edited");
-        this.setState({ clear: true });
       }
       else {
         alert("didnt edit");
-        this.setState({ clear: true });
       }
+      this.setState({ clear: true });
     }
   }
   async remove() {
@@ -125,7 +124,11 @@ class User extends Component {
               clear={c}
               options={options} /> : null}
 
-            <UserDeckAdd add={this.addDeck} decks={this.props.decks} prog={this.state.progress} />
+            <UserDeckAdd
+              add={this.addDeck}
+              decks={this.props.decks}
+              prog={this.state.progress} />
+
             {this.haveProgress()}
 
           </form>

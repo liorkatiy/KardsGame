@@ -37,6 +37,11 @@ class AsyncLoader extends React.Component {
 }
 
 
+/**
+ * 
+ * @param {React.Component} component 
+ * @param {{any:{func:function,params: [*]}}} data 
+ */
 const initializer = (component, data) => {
   return () => <AsyncLoader data={data} c={component} />;
 };

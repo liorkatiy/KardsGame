@@ -17,6 +17,7 @@ const animate = function (elem, open, duration = 2, fps = 60) {
     p = 0;
     step = -step;
     elem.classList.add("closedElement");
+    elem.style.height = 0 + "px";
   }
   return () => {
     if (timeOutFunc) {
@@ -44,7 +45,7 @@ const animate = function (elem, open, duration = 2, fps = 60) {
       style.borderTopWidth = btop * p + "px";
       style.paddingTop = ptop * p + "px";
       style.paddingBottom = pbottom * p + "px";
-      style.opacity = p;
+      // style.opacity = p;
 
       if (p === 0 || p === 1) {
         clearInterval(timeOutFunc);

@@ -5,7 +5,7 @@ import { token, decks } from "./util/localData";
 import game from "./util/serverFetcher/gameData";
 //import registerServiceWorker from './registerServiceWorker';
 
-(async function init() {
+(async () => {
   if (token.getTokenCookie()) {
     const _decks = await game.getGameDeck();
     decks.set(_decks);
