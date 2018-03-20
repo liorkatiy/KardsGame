@@ -26,9 +26,6 @@ const animate = function (elem, open, duration = 2, fps = 60) {
     else {
       if (elem.classList.contains("closedElement")) {
         elem.classList.remove("closedElement");
-        /* elem.style.height = "auto";
-         height = elem.offsetHeight;
-         elem.style.height = 0 + "px";*/
       }
       else {
         height = elem.offsetHeight;
@@ -50,7 +47,6 @@ const animate = function (elem, open, duration = 2, fps = 60) {
       if (p === 0 || p === 1) {
         clearInterval(timeOutFunc);
         timeOutFunc = false;
-        //p = Math.round(p);
         if (p >= 1) {
           elem.style.height = "auto";
           //height = elem.offsetHeight;

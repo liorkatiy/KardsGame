@@ -7,10 +7,6 @@ animation-name: change-color;
   animation-direction: alternate-reverse;
 }
 
-/*:root{
-  --primary:#00ffff !important
-}*/
-
 @keyframes change-color{
   0%{
     color: hsl(0, 0%, 100%) ;
